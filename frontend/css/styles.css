@@ -1,0 +1,185 @@
+/* Учёт занятий по английскому — стили формы */
+
+:root {
+  --bg: #0f1419;
+  --surface: #1a2332;
+  --border: #2d3a4f;
+  --text: #e6edf3;
+  --text-muted: #8b949e;
+  --primary: #58a6ff;
+  --primary-hover: #79b8ff;
+  --secondary: #388bfd;
+  --success: #3fb950;
+  --error: #f85149;
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+header {
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section:last-of-type {
+  margin-bottom: 1rem;
+}
+
+.form-section h2 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.15s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238b949e' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 0.65rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background-color 0.15s, opacity 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  background: var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #3d4d66;
+}
+
+.message {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  display: none;
+}
+
+.message.visible {
+  display: block;
+}
+
+.message.success {
+  background: rgba(63, 185, 80, 0.15);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.message.error {
+  background: rgba(248, 81, 73, 0.15);
+  border: 1px solid var(--error);
+  color: var(--error);
+}

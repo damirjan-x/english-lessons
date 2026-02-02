@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Учёт занятий по английскому</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Учёт занятий по английскому языку</h1>
+    </header>
+
+    <form id="lesson-form" class="form">
+      <section class="form-section">
+        <h2>Период и студент</h2>
+        <div class="row">
+          <label for="year">Год</label>
+          <select id="year" name="year" required></select>
+        </div>
+        <div class="row">
+          <label for="month">Месяц</label>
+          <select id="month" name="month" required></select>
+        </div>
+        <div class="row">
+          <label for="student_id">Студент</label>
+          <select id="student_id" name="student_id" required aria-label="Выберите студента">
+            <option value="" disabled>— Загрузка... —</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Данные на английском языке</h2>
+        <div class="row">
+          <label for="grammar_e">GrammarE</label>
+          <input type="text" id="grammar_e" name="grammar_e" maxlength="255" placeholder="до 255 символов">
+        </div>
+        <div class="row">
+          <label for="reading_e">ReadingE</label>
+          <input type="text" id="reading_e" name="reading_e" maxlength="255" placeholder="до 255 символов">
+        </div>
+        <div class="row">
+          <label for="speaking_e">SpeakingE</label>
+          <input type="text" id="speaking_e" name="speaking_e" maxlength="255" placeholder="до 255 символов">
+        </div>
+        <div class="row">
+          <label for="writing_e">WritingE</label>
+          <input type="text" id="writing_e" name="writing_e" maxlength="255" placeholder="до 255 символов">
+        </div>
+      </section>
+
+      <section class="form-section">
+        <div class="row">
+          <label for="hours_studied">Number of hours studied</label>
+          <input type="number" id="hours_studied" name="hours_studied" min="1" max="12" value="1" required>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button type="submit" id="btn-send" class="btn btn-primary">Send data</button>
+        <button type="button" id="btn-print" class="btn btn-secondary">Print report</button>
+      </div>
+
+      <div id="message" class="message" aria-live="polite"></div>
+    </form>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

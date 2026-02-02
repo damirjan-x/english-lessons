@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "english-lessons.fullname" . }}
+  labels:
+    {{- include "english-lessons.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "english-lessons.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "english-lessons.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          env:
+            - name: MYSQL_HOST
+              value: {{ .Values.mysql.host | quote }}
+            - name: MYSQL_PORT
+              value: {{ .Values.mysql.port | quote }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.mysql.database | quote }}
+            - name: MYSQL_USER
+              value: {{ .Values.mysql.user | quote }}
+            - name: LOG_FORMAT
+              value: {{ .Values.env.LOG_FORMAT | default "json" | quote }}
+            - name: LOG_LEVEL
+              value: {{ .Values.env.LOG_LEVEL | default "INFO" | quote }}
+            {{- if .Values.mysql.existingSecret }}
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mysql.existingSecret }}
+                  key: mysql-password
+            {{- else if .Values.mysql.password }}
+            - name: MYSQL_PASSWORD
+              value: {{ .Values.mysql.password | quote }}
+            {{- end }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

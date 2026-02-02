@@ -1,0 +1,11 @@
+apiVersion: v2
+name: english-lessons
+description: Система учёта занятий по английскому языку (backend + frontend)
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - english
+  - lessons
+  - fastapi
+maintainers: []

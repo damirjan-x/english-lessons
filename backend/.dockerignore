@@ -1,0 +1,31 @@
+# Git and IDE
+.git
+.gitignore
+.venv
+venv
+.env
+.env.*
+*.pyc
+__pycache__
+.pytest_cache
+.mypy_cache
+.coverage
+htmlcov
+
+# Docs and local
+*.md
+!templates/README.md
+docs/
+*.docx
+*.pdf
+
+# Tests (в образ не включаем)
+tests/
+*_test.py
+test_*.py
+
+# Docker
+Dockerfile*
+.dockerignore
+docker-compose*.yml
+.docker

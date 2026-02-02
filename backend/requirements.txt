@@ -1,0 +1,23 @@
+# FastAPI and server
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+
+# Database
+sqlalchemy==2.0.36
+pymysql==1.1.1
+cryptography==44.0.0
+
+# Validation and env
+pydantic==2.10.3
+pydantic-settings==2.6.1
+python-dotenv==1.0.1
+
+# DOCX template and PDF (template filling; PDF via LibreOffice in Docker)
+docxtpl==0.16.7
+python-docx==1.1.2
+
+# Monitoring and observability (DevOps)
+prometheus-client==0.21.0
+
+# Logging (JSON for Loki)
+structlog==24.4.0

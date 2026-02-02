@@ -1,0 +1,64 @@
+# English Lessons — значения по умолчанию для Helm
+
+replicaCount: 1
+
+image:
+  repository: english-lessons-api
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Для GHCR/Docker Hub: image.repository = ghcr.io/OWNER/english-lessons-api или docker.io/user/english-lessons-api
+
+service:
+  type: ClusterIP
+  port: 8000
+
+# MySQL — внешний сервис или свой (задать host/port)
+mysql:
+  host: mysql  # или внешний RDS/AKS DB
+  port: 3306
+  database: english_lessons
+  user: app
+  # password задаётся через existingSecret (см. values или secret)
+  existingSecret: ""  # имя Secret с ключом mysql-password
+  password: ""        # или явно (не для продакшена)
+
+# Ingress (опционально, bonus по ТЗ)
+ingress:
+  enabled: false
+  className: nginx
+  annotations: {}
+  hosts:
+    - host: english-lessons.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Ресурсы и лимиты
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+# Логи и метрики (для Loki/Prometheus)
+env:
+  LOG_FORMAT: json
+  LOG_LEVEL: INFO
+
+# Liveness/readiness — проверка /health
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 10
+  periodSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 5
+  periodSeconds: 5

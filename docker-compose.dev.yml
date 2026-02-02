@@ -1,0 +1,12 @@
+# Переопределения для режима разработки: монтирование кода и статики,
+# изменения на хосте сразу видны в контейнере без пересборки.
+# Запуск: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Или задать в .env: COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
+services:
+  backend:
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/static:/app/static
+      - ./backend/templates:/app/templates
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
