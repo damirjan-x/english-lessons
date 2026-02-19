@@ -37,7 +37,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/english-lessons-api
+          images: ${{ env.REGISTRY }}/${{ github.actor }}/english-lessons-api
           tags: |
             type=ref,event=branch
             type=sha,prefix=
@@ -78,9 +78,9 @@ jobs:
 
       - name: Deploy with Helm
         run: |
-          export IMAGE=${{ env.REGISTRY }}/${{ github.repository_owner }}/english-lessons-api:latest
+          export IMAGE=${{ env.REGISTRY }}/${{ github.actor }}/english-lessons-api:latest
           helm upgrade --install english-lessons ./helm/english-lessons \
-            --set image.repository=${{ env.REGISTRY }}/${{ github.repository_owner }}/english-lessons-api \
+            --set image.repository=${{ env.REGISTRY }}/${{ github.actor }}/english-lessons-api \
             --set image.tag=latest \
             --set mysql.host=${{ secrets.MYSQL_HOST }} \
             --set mysql.password=${{ secrets.MYSQL_PASSWORD }} \
