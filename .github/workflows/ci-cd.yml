@@ -54,11 +54,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  # Деплой в OKE. Нужны секреты: KUBE_CONFIG_BASE64, OCI_CLI_USER, OCI_CLI_TENANCY,
+  # OCI_CLI_FINGERPRINT, OCI_CLI_KEY_CONTENT, OCI_CLI_REGION, MYSQL_HOST, MYSQL_PASSWORD.
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     environment: production
+    env:
+      OCI_CLI_USER: ${{ secrets.OCI_CLI_USER }}
+      OCI_CLI_TENANCY: ${{ secrets.OCI_CLI_TENANCY }}
+      OCI_CLI_FINGERPRINT: ${{ secrets.OCI_CLI_FINGERPRINT }}
+      OCI_CLI_KEY_CONTENT: ${{ secrets.OCI_CLI_KEY_CONTENT }}
+      OCI_CLI_REGION: ${{ secrets.OCI_CLI_REGION }}
     steps:
       - uses: actions/checkout@v4
 
@@ -67,14 +75,21 @@ jobs:
         with:
           version: 'v3.13.0'
 
+      - name: Install OCI CLI
+        run: |
+          pip install --user oci-cli
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo "PATH=$HOME/.local/bin:$PATH" >> $GITHUB_ENV
+          $HOME/.local/bin/oci --version
+
       - name: Set up kubeconfig
         id: kubeconfig
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBE_CONFIG_BASE64 }}" | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
-        # Секрет KUBE_CONFIG_BASE64 — base64-encoded kubeconfig для кластера.
-        # Альтернатива: OIDC + aws-actions/configure-aws-credentials + aws eks update-kubeconfig.
+        # KUBE_CONFIG_BASE64 — base64 вашего kubeconfig (с exec-плагином oci).
+        # OCI CLI установлен выше; учётные данные — секреты OCI_CLI_*.
 
       - name: Deploy with Helm
         run: |
