@@ -144,7 +144,7 @@ helm install english-lessons ./helm/english-lessons \
 - **CI/CD**: GitHub Actions — сборка образа, публикация в registry, деплой в Kubernetes/Helm.
 - **IaC**: Terraform — кластер (EKS/AKS), ресурсы для БД.
 - **Kubernetes/Helm**: Deployment, Service; опционально Ingress, ArgoCD.
-- **Мониторинг и логи**: Prometheus (метрики `/metrics`), Grafana, Loki + Promtail (логи в JSON при `LOG_FORMAT=json`).
+- **Мониторинг и логи**: Prometheus (метрики `/metrics`), Grafana, Loki + Promtail (логи в JSON при `LOG_FORMAT=json`). Пошаговая установка Grafana и Prometheus в кластер: [docs/grafana.md](docs/grafana.md).
 
 ## Лицензия
 

@@ -3,6 +3,7 @@ FastAPI backend: учёт занятий по английскому языку.
 Endpoints: / (frontend), /health, /api/*, /metrics.
 """
 
+import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -10,12 +11,15 @@ import structlog
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import FileResponse, Response
+from starlette.requests import Request
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from app.config import get_settings
 from app.database import init_db
 from app.logging_config import configure_logging
+from app.metrics import http_request_duration_seconds, http_requests_total
 from app.routers import health, lessons, report, students
 
 settings = get_settings()
@@ -50,6 +54,27 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+class PrometheusMiddleware(BaseHTTPMiddleware):
+    """Сбор HTTP-метрик для Prometheus."""
+
+    async def dispatch(self, request: Request, call_next):
+        method = request.method
+        path = request.scope.get("path", "")
+        # Ограничиваем кардинальность path: /api/lessons/1 -> /api/lessons/{id}
+        if path.startswith("/api/lessons") and path != "/api/lessons":
+            path = "/api/lessons/{id}"
+        start = time.perf_counter()
+        response = await call_next(request)
+        duration = time.perf_counter() - start
+        status = response.status_code
+        http_requests_total.labels(method=method, path=path, status_code=status).inc()
+        http_request_duration_seconds.labels(method=method, path=path).observe(duration)
+        return response
+
+
+app.add_middleware(PrometheusMiddleware)
 
 # Роутеры
 app.include_router(health.router)

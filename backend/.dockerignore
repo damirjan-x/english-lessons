@@ -17,6 +17,7 @@ htmlcov
 !templates/README.md
 docs/
 *.docx
+!templates/report_template.docx
 *.pdf
 
 # Tests (в образ не включаем)

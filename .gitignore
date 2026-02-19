@@ -1,0 +1,47 @@
+# Локальные настройки и секреты
+.env
+.env.local
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# IDE и ОС
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Сборки и артефакты
+*.egg-info/
+dist/
+build/
+*.pdf
+
+# Логи и тесты
+*.log
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/.terraform.lock.hcl
+*.tfvars
+!*.tfvars.example
+
+# Временные файлы
+*.tmp
+*.temp
+.cache/

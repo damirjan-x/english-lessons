@@ -6,12 +6,19 @@ image:
   repository: english-lessons-api
   tag: latest
   pullPolicy: IfNotPresent
+  # Для приватного GHCR: создать secret и указать имя, например pullSecrets: [ghcr-secret]
+  pullSecrets: []
 
 # Для GHCR/Docker Hub: image.repository = ghcr.io/OWNER/english-lessons-api или docker.io/user/english-lessons-api
 
 service:
   type: ClusterIP
   port: 8000
+  # Аннотации для сбора метрик Prometheus (при установленном Prometheus в кластере)
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8000"
+    prometheus.io/path: "/metrics"
 
 # MySQL — внешний сервис или свой (задать host/port)
 mysql:

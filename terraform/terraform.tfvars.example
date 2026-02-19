@@ -1,0 +1,19 @@
+# Скопируйте в terraform.tfvars и заполните. Файл terraform.tfvars не коммитить!
+
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaa..."
+user_ocid        = "ocid1.user.oc1..aaaaaaaa..."
+fingerprint      = "aa:bb:cc:dd:..."
+private_key_path = "~/.oci/oci_api_key.pem"
+region           = "eu-frankfurt-1"
+compartment_ocid = "ocid1.compartment.oc1..aaaaaaaa..."
+
+# Пароль MySQL (обязательно): 8–32 символа, минимум 1 заглавная, 1 строчная, 1 цифра, 1 спецсимвол
+db_password = "YourSecure1!"
+
+# Опционально: свои имена, CIDR, MySQL shape и AD
+# project_name = "englishlessons"
+# cluster_name = "englishlessons-oke"
+# vcn_cidr     = "10.0.0.0/16"
+# mysql_shape_name = "MySQL.Free"   # или MySQL.2, MySQL.VM.Standard.E4.1.8GB
+# mysql_availability_domain_index = 0   # при LimitExceeded попробуйте 1 или 2
+# kubernetes_version = ""   # по умолчанию: авто из API региона. Или явно: "v1.32.1", "v1.33.1"

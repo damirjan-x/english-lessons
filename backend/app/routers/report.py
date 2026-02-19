@@ -5,6 +5,7 @@ from fastapi.responses import Response
 from sqlalchemy.orm import Session, joinedload
 
 from app.deps import get_db
+from app.metrics import reports_generated_total
 from app.models import LessonRecord
 from app.services.report import render_docx_and_convert_to_pdf
 
@@ -49,6 +50,8 @@ def print_report(
     except Exception as e:
         err_msg = str(e).replace("\n", " ").strip() or type(e).__name__
         raise HTTPException(status_code=500, detail=f"Report error: {err_msg}")
+
+    reports_generated_total.inc()
 
     # Имя файла только ASCII — заголовки HTTP кодируются в latin-1
     filename = f"report_{record.student_id}_{year}_{month:02d}.pdf"
