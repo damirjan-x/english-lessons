@@ -70,12 +70,13 @@ jobs:
           version: 'v3.13.0'
 
       - name: Set up kubeconfig
+        env:
+          KUBE_B64: ${{ secrets.KUBE_CONFIG_BASE64 }}
         run: |
           mkdir -p ~/.kube
-          # Убираем переносы и пробелы, чтобы вставка секрета в GitHub не ломала base64
-          echo "${{ secrets.KUBE_CONFIG_BASE64 }}" | tr -d '\n\r \t' | base64 -d > ~/.kube/config
+          printf '%s' "$KUBE_B64" | tr -d '\n\r \t' | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
-        # Kubeconfig должен содержать user с token (или client-certificate), без exec.
+        # Kubeconfig: user с token (или client-certificate), без exec.
 
       - name: Deploy with Helm
         run: |
