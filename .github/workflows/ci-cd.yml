@@ -72,7 +72,8 @@ jobs:
       - name: Set up kubeconfig
         run: |
           mkdir -p ~/.kube
-          echo "${{ secrets.KUBE_CONFIG_BASE64 }}" | base64 -d > ~/.kube/config
+          # Убираем переносы и пробелы, чтобы вставка секрета в GitHub не ломала base64
+          echo "${{ secrets.KUBE_CONFIG_BASE64 }}" | tr -d '\n\r \t' | base64 -d > ~/.kube/config
           chmod 600 ~/.kube/config
         # Kubeconfig должен содержать user с token (или client-certificate), без exec.
 
