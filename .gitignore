@@ -45,3 +45,7 @@ terraform/.terraform.lock.hcl
 *.tmp
 *.temp
 .cache/
+
+# Настройка токена для доступа к Kubernetes
+oke-kubeconfig-sa-token.yaml
+kubeconfig-ci.yaml
